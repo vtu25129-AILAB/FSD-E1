@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Welcome')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+
+    <main class="container">
+        <section class="hero animate-in">
+            <h1>Ignite Your Campus Life</h1>
+            <p>Discover workshops, seminars, and festivals happening across your departments. Register in seconds and stay connected.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a th:href="@{/events}" class="btn btn-primary btn-lg" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Events</a>
+            </div>
+        </section>
+
+        <section id="featured" class="animate-in" style="animation-delay: 0.2s">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem;">Upcoming Highlights</h2>
+                <a th:href="@{/events}" class="btn btn-outline" style="font-size: 0.85rem;">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="event-grid">
+                <div th:each="event, iter : ${featuredEvents}" th:if="${iter.index < 3}" class="event-card glass">
+                    <img th:if="${event.imageUrl != null}" th:src="${event.imageUrl}" class="event-image" alt="Event Poster">
+                    <div class="event-content">
+                        <div class="event-tag" th:text="${event.eventType}">Workshop</div>
+                        <h3 class="event-title" th:text="${event.title}">Advanced Java Workshop</h3>
+                        <p class="event-info" th:text="${#strings.abbreviate(event.description, 100)}">Description</p>
+                        <div class="event-meta">
+                            <span><i class="far fa-calendar"></i> <span th:text="${#temporals.format(event.dateTime, 'MMM dd, HH:mm')}">Date</span></span>
+                            <span><i class="fas fa-map-marker-alt"></i> <span th:text="${event.location}">Loc</span></span>
+                            <span><i class="fas fa-users"></i> <span th:text="${event.currentRegistrations + '/' + event.capacity}">12/50</span></span>
+                        </div>
+                        <a th:href="@{'/register/' + ${event.id}}" class="btn btn-primary" style="margin-top: 1.5rem; text-align: center;">Register Now</a>
+                    </div>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(featuredEvents)}" class="glass" style="grid-column: 1/-1; padding: 4rem; text-align: center; border-radius: 1rem;">
+                    <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                    <p>No upcoming events at the moment. Check back soon!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-banner animate-in" style="animation-delay: 0.3s">
+            <div class="stat-item">
+                <span class="stat-number" th:text="${totalEvents}">0</span>
+                <span class="stat-text">Active Events</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" th:text="${totalRegistrations}">0</span>
+                <span class="stat-text">Registrations</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-text">Capacity Utilized</span>
+            </div>
+        </section>
+
+        <section id="discovery" class="animate-in" style="animation-delay: 0.4s; margin-bottom: 6rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Discovery Hub</h2>
+                <p style="color: var(--text-muted);">Explore events by department</p>
+            </div>
+            <div class="category-grid">
+                <a th:href="@{/events(dept='Computer Science')}" class="category-card glass">
+                    <i class="fas fa-code"></i>
+                    <h4>Computer Science</h4>
+                </a>
+                <a th:href="@{/events(dept='Mechanical')}" class="category-card glass">
+                    <i class="fas fa-cog"></i>
+                    <h4>Engineering</h4>
+                </a>
+                <a th:href="@{/events(dept='Management')}" class="category-card glass">
+                    <i class="fas fa-briefcase"></i>
+                    <h4>Business</h4>
+                </a>
+                <a th:href="@{/events(dept='Science')}" class="category-card glass">
+                    <i class="fas fa-flask"></i>
+                    <h4>Sciences</h4>
+                </a>
+                <a th:href="@{/events}" class="category-card glass">
+                    <i class="fas fa-th-large"></i>
+                    <h4>View All</h4>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

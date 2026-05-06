@@ -1,0 +1,14 @@
+com\smartcampus\eventmanager\EventManagementApplication.class
+com\smartcampus\eventmanager\model\EventType.class
+com\smartcampus\eventmanager\repository\RegistrationRepository.class
+com\smartcampus\eventmanager\model\Event$EventBuilder.class
+com\smartcampus\eventmanager\model\Registration$RegistrationBuilder.class
+com\smartcampus\eventmanager\service\EventService.class
+com\smartcampus\eventmanager\config\SecurityConfig.class
+com\smartcampus\eventmanager\controller\EventController.class
+com\smartcampus\eventmanager\model\Event.class
+com\smartcampus\eventmanager\service\RegistrationService.class
+com\smartcampus\eventmanager\repository\EventRepository.class
+com\smartcampus\eventmanager\config\DataSeeder.class
+com\smartcampus\eventmanager\controller\AdminController.class
+com\smartcampus\eventmanager\model\Registration.class

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Register for Event')}"></head>
+<body>
+    <div th:replace="~{layout :: navbar}"></div>
+
+    <main class="container">
+        <div class="form-container glass animate-in">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="font-size: 1.75rem; color: var(--primary);">Secure Your Seat</h1>
+                <p style="color: var(--text-muted);" th:text="${event.title}">For: Event Title</p>
+            </div>
+
+            <div th:if="${error}" class="glass" style="padding: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #ef4444; color: #dc2626; font-size: 0.9rem;">
+                <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}">Error message</span>
+            </div>
+
+            <form th:action="@{/register}" th:object="${registration}" method="post">
+                <input type="hidden" th:field="*{event.id}">
+                
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" th:field="*{studentName}" class="form-control" placeholder="John Doe">
+                    <div th:if="${#fields.hasErrors('studentName')}" th:errors="*{studentName}" class="error-text"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>University Email</label>
+                    <input type="email" th:field="*{studentEmail}" class="form-control" placeholder="john.doe@university.edu">
+                    <div th:if="${#fields.hasErrors('studentEmail')}" th:errors="*{studentEmail}" class="error-text"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" th:field="*{studentId}" class="form-control" placeholder="U12345678">
+                    <div th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}" class="error-text"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" th:field="*{department}" class="form-control" placeholder="Computer Science">
+                    <div th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="error-text"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1rem; font-size: 1.1rem;">
+                    Confirm Registration
+                </button>
+                
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                    By registering, you agree to receive event-related notifications.
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

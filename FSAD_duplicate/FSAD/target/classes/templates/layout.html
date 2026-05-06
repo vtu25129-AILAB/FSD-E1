@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title + ' - Smart Campus'}">Smart Campus</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Apply theme immediately to prevent flashing
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+
+    <nav th:fragment="navbar" class="glass">
+        <div class="container nav-content">
+            <a th:href="@{/}" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>UniEvents</span>
+            </a>
+            <div class="nav-links">
+                <a th:href="@{/}">Home</a>
+                <a th:href="@{/events}">All Events</a>
+                <a th:href="@{/my-registrations}">My Registrations</a>
+                <div class="theme-toggle" id="themeBtn" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/admin/dashboard}" class="btn btn-outline">Dashboard</a>
+                    <form th:action="@{/logout}" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-outline" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+                    </form>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="btn btn-primary">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <footer th:fragment="footer" style="padding: 4rem 0; background: var(--glass); margin-top: 4rem; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 Smart Campus Event Management. All rights reserved.</p>
+        </div>
+        <script>
+            const themeBtn = document.getElementById('themeBtn');
+            const icon = themeBtn.querySelector('i');
+            
+            function updateIcon(theme) {
+                if (theme === 'dark') {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+            }
+
+            // Set initial icon
+            updateIcon(document.documentElement.getAttribute('data-theme'));
+
+            themeBtn.addEventListener('click', () => {
+                let currentTheme = document.documentElement.getAttribute('data-theme');
+                let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+            });
+        </script>
+    </footer>
+
+</body>
+</html>

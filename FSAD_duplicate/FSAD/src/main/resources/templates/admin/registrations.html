@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Event Registrations')}"></head>
+<body>
+    <style>
+        @media print {
+            nav, footer, .btn, .theme-toggle, .admin-header a { display: none !important; }
+            .glass { background: white !important; border: none !important; box-shadow: none !important; }
+            .container { max-width: 100% !important; margin: 0 !important; width: 100% !important; }
+            body { background: white !important; padding: 20px !important; color: black !important; }
+            table { width: 100% !important; border: 1px solid #eee !important; }
+            th { background: #f8fafc !important; color: black !important; }
+        }
+    </style>
+    <div th:replace="~{layout :: navbar}"></div>
+
+    <main class="container" style="margin-top: 3rem;">
+        <div class="admin-header">
+            <div>
+                <a th:href="@{/admin/dashboard}" style="text-decoration: none; color: var(--primary); font-size: 0.9rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 style="margin-top: 1rem;">Participant List</h1>
+                <p style="color: var(--text-muted);" th:text="${event.title}">For Event Name</p>
+            </div>
+            <button class="btn btn-outline" onclick="window.print()">
+                <i class="fas fa-print"></i> Export PDF / Print
+            </button>
+        </div>
+
+        <div class="glass" style="padding: 1.5rem; border-radius: 1rem; margin-top: 2rem;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Student ID</th>
+                        <th>Department</th>
+                        <th>Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reg : ${registrations}">
+                        <td th:text="${reg.studentName}" style="font-weight: 500;">Name</td>
+                        <td th:text="${reg.studentEmail}">Email</td>
+                        <td th:text="${reg.studentId}">ID</td>
+                        <td th:text="${reg.department}">Dept</td>
+                        <td th:text="${#temporals.format(reg.registrationDate, 'MMM dd, HH:mm')}">Date</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(registrations)}">
+                        <td colspan="5" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                            No registrations found for this event yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>
